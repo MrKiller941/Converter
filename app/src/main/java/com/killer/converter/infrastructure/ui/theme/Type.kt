@@ -1,4 +1,4 @@
-package com.killer.converter.ui.theme
+package com.killer.converter.infrastructure.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.killer.converter.domain
+package com.killer.converter.domain.converter
 
 import kotlin.math.pow
 
@@ -24,6 +24,6 @@ class DecimalConverter : IDecimalConverter {
             convertedNumber = digit + convertedNumber
             tempDecimal /= toBase
         }
-        return convertedNumber dfdfd
+        return convertedNumber
     }
 }

@@ -1,4 +1,4 @@
-package com.killer.converter.ui.widget
+package com.killer.converter.infrastructure.ui.widget
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -15,12 +15,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.killer.converter.ui.ConverterStateFactory
+import com.killer.converter.state.ConverterStateSingleton
 
 @Composable
 fun PanelBase() {
 
-    val state = ConverterStateFactory.getState()
+    val state = remember { ConverterStateSingleton.getState() }
 
     val bases = remember { (2..36).toList() }
 

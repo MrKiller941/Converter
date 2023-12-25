@@ -1,4 +1,4 @@
-package com.killer.converter.domain
+package com.killer.converter.domain.converter
 
 object NumberUtils {
 
