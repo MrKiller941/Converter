@@ -31,6 +31,10 @@ class ConverterState {
     fun updateHistory(){
         savedResults = history.getHistory()
     }
+
+    fun deleteHistory(count: Int){
+        history.deleteLast(count)
+    }
 }
 
 object ConverterStateSingleton {

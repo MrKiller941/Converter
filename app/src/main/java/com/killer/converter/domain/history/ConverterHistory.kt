@@ -9,4 +9,10 @@ class ConverterHistory : IConvertetHistory {
     override fun getHistory(): List<Result> {
         return repository.getAll()
     }
+
+    override fun deleteLast(count: Int) {
+        repository.deleteLast(count)
+    }
+
+
 }

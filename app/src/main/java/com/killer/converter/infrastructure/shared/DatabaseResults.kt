@@ -9,7 +9,6 @@ import org.json.JSONObject
 
 object DatabaseResults : IConverterRepository {
 
-    private val limit = 5
     private lateinit var preferences: SharedPreferences
 
     fun initialize(context: Context){
@@ -28,32 +27,39 @@ object DatabaseResults : IConverterRepository {
             }
         }
 
-        // Убедимся, что мы не возвращаем больше элементов, чем указано в limit
-        return resultList.takeLast(limit)
+        return resultList
     }
 
     override fun add(result: Result) {
         val history = preferences.getString("history", "[]")
-        if (history != null) {
-            val jsonArray = JSONArray(history)
+        val jsonArray = JSONArray(history)
+        jsonArray.put(toJson(result))
+        val editor = preferences.edit()
+        editor.putString("history", jsonArray.toString())
+        editor.apply()
+    }
 
-            if (jsonArray.length() >= limit) {
-                for (i in 0 until jsonArray.length() - limit + 1) {
-                    jsonArray.remove(0) // Удаляем самый старый элемент
-                }
-            }
-
-            jsonArray.put(toJson(result))
-            val editor = preferences.edit()
-            editor.putString("history", jsonArray.toString())
-            editor.apply()
+    override fun deleteLast(count: Int) {
+        val allResults = getAll().toMutableList()
+        if (count == -1) {
+            allResults.removeAll(allResults)
         } else {
-            val jsonArray = JSONArray()
-            jsonArray.put(toJson(result))
-            val editor = preferences.edit()
-            editor.putString("history", jsonArray.toString())
-            editor.apply()
+            val numberOfResultsToDelete = minOf(count, allResults.size)
+            for (i in 1..numberOfResultsToDelete) {
+                allResults.removeLast()
+            }
         }
+        saveAllResults(allResults)
+    }
+
+    private fun saveAllResults(resultList: List<Result>) {
+        val jsonArray = JSONArray()
+        for (result in resultList) {
+            jsonArray.put(toJson(result))
+        }
+        val editor = preferences.edit()
+        editor.putString("history", jsonArray.toString())
+        editor.apply()
     }
 
     private fun toJson(result: Result): String {
